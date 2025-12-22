@@ -1,0 +1,100 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(180deg, #f5f7fa, #e4efe9);
+  font-family: "Segoe UI", system-ui, sans-serif;
+  display: flex;
+  justify-content: center;
+}
+
+.app {
+  width: 100%;
+  max-width: 420px;
+  padding: 16px;
+}
+
+/* Encabezado */
+header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 26px;
+  color: #2e7d32;
+}
+
+header p {
+  margin: 4px 0 0;
+  color: #555;
+  font-size: 14px;
+}
+
+/* Tarjetas */
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+/* Texto */
+textarea {
+  width: 100%;
+  border: none;
+  resize: none;
+  font-size: 16px;
+  min-height: 120px;
+  outline: none;
+}
+
+/* Botón */
+button {
+  width: 100%;
+  margin-top: 12px;
+  padding: 14px;
+  font-size: 16px;
+  border: none;
+  border-radius: 12px;
+  background: #2e7d32;
+  color: white;
+  cursor: pointer;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+/* Botón foto */
+.file-label {
+  display: block;
+  text-align: center;
+  padding: 14px;
+  border-radius: 12px;
+  background: #e8f5e9;
+  color: #2e7d32;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* Galería */
+.galeria {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.galeria img {
+  width: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+}
+html, body {
+  height: 100%;
+  overflow: hidden;
+}

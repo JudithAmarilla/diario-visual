@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Diario</title>
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+
+  <div class="app">
+
+    <header>
+      <h1>Mi Diario</h1>
+      <p id="fecha"></p>
+    </header>
+
+    <div class="card">
+      <textarea id="nota" placeholder="¿Qué sentís hoy?"></textarea>
+      <button onclick="guardarNota()">Guardar nota</button>
+    </div>
+
+    <div class="card">
+      <label class="file-label">
+        📷 Agregar foto
+        <input type="file" id="foto" accept="image/*" hidden>
+      </label>
+    </div>
+
+    <div id="galeria" class="galeria"></div>
+
+  </div>
+
+  <script src="app.js"></script>
+
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js");
+    }
+  </script>
+
+</body>
+</html>
+
