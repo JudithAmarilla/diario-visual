@@ -83,16 +83,28 @@ button:active {
 }
 
 /* Galería */
+/* Contenedor principal de las fotos */
 .galeria {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
+  grid-template-columns: repeat(3, 1fr); /* 3 columnas iguales */
+  gap: 8px; /* Espacio entre fotos */
+  padding: 10px 0;
 }
 
+/* Ajuste individual de cada imagen */
 .galeria img {
   width: 100%;
-  border-radius: 10px;
-  object-fit: cover;
+  aspect-ratio: 1 / 1; /* Esto las hace perfectamente cuadradas */
+  object-fit: cover;   /* Recorta la imagen para que llene el cuadrado sin deformarse */
+  border-radius: 8px;  /* Bordes suaves */
+  display: block;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
+
+/* Efecto visual al tocar la foto */
+.galeria img:active {
+  transform: scale(0.95);
 }
 html, body {
   height: 100%;
