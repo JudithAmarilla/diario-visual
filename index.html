@@ -5,12 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mi Diario Visual</title>
   <link rel="stylesheet" href="estilo.css">
+  <link rel="manifest" href="manifest.json">
 </head>
 <body>
 
   <div id="vista-meses" class="app">
     <header><h1>Mis Recuerdos</h1></header>
+    
     <div class="grid-meses" id="grid-meses"></div>
+
+    <div class="card" style="margin-top: 20px;">
+      <div class="opciones-foto">
+        <label class="btn-accion">📸 Cámara<input type="file" id="foto-camara" accept="image/*" capture="environment" hidden></label>
+        <label class="btn-accion btn-secundario">📁 Subir<input type="file" id="foto-archivo" accept="image/*" hidden></label>
+      </div>
+    </div>
   </div>
 
   <div id="vista-diario" class="app" style="display: none;">
@@ -18,13 +27,6 @@
       <button onclick="mostrarHome()" class="btn-volver">← Volver</button>
       <h1 id="fecha"></h1>
     </header>
-
-    <div class="card">
-      <div class="opciones-foto">
-        <label class="btn-accion">📸 Cámara<input type="file" id="foto-camara" accept="image/*" capture="environment" hidden></label>
-        <label class="btn-accion btn-secundario">📁 Subir<input type="file" id="foto-archivo" accept="image/*" hidden></label>
-      </div>
-    </div>
     <div id="galeria" class="galeria"></div>
   </div>
 
@@ -37,7 +39,7 @@
         <button onclick="seleccionarMesManual(6)">Jul</button><button onclick="seleccionarMesManual(7)">Ago</button><button onclick="seleccionarMesManual(8)">Sep</button>
         <button onclick="seleccionarMesManual(9)">Oct</button><button onclick="seleccionarMesManual(10)">Nov</button><button onclick="seleccionarMesManual(11)">Dic</button>
       </div>
-      <button onclick="cerrarSelector()">Cancelar</button>
+      <button onclick="cerrarSelector()" class="btn-cancelar">Cancelar</button>
     </div>
   </div>
 

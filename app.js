@@ -1,4 +1,3 @@
-const notaInput = document.getElementById("nota");
 const galeria = document.getElementById("galeria");
 const fechaTexto = document.getElementById("fecha");
 const gridMeses = document.getElementById("grid-meses");
@@ -6,10 +5,8 @@ const vistaMeses = document.getElementById("vista-meses");
 const vistaDiario = document.getElementById("vista-diario");
 
 const meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
-let fechaActual = new Date();
 let archivoPendiente = null;
 
-// 1. Generar las carpetas de meses en el inicio
 function renderizarMeses() {
   gridMeses.innerHTML = "";
   meses.forEach((mes, index) => {
@@ -21,12 +18,12 @@ function renderizarMeses() {
   });
 }
 
-// 2. Navegación entre vistas
-function abrirMes(mesIndex) {
-  fechaActual.setMonth(mesIndex);
+function abrirMes(index) {
+  const nombreMes = meses[index];
   vistaMeses.style.display = "none";
   vistaDiario.style.display = "block";
-  actualizarPantalla();
+  fechaTexto.textContent = "Álbum de " + nombreMes;
+  mostrarFotos(nombreMes);
 }
 
 function mostrarHome() {
@@ -34,15 +31,9 @@ function mostrarHome() {
   vistaDiario.style.display = "none";
 }
 
-function actualizarPantalla() {
-  const nombreMes = meses[fechaActual.getMonth()];
-  fechaTexto.textContent = "Álbum de " + nombreMes;
-  mostrarFotos(nombreMes);
-}
-
-// 3. Procesamiento de fotos (Automático vs Manual)
 document.getElementById("foto-camara").addEventListener("change", e => {
-  procesarFoto(e.target.files[0], meses[new Date().getMonth()]); // Mes actual real
+  const mesActual = meses[new Date().getMonth()];
+  procesarFoto(e.target.files[0], mesActual);
 });
 
 document.getElementById("foto-archivo").addEventListener("change", e => {
@@ -62,8 +53,8 @@ function procesarFoto(file, nombreMes) {
     let fotos = JSON.parse(localStorage.getItem("fotos_mes_" + nombreMes) || "[]");
     fotos.push(reader.result);
     localStorage.setItem("fotos_mes_" + nombreMes, JSON.stringify(fotos));
-    alert(`Guardado en ${nombreMes}`);
-    actualizarPantalla();
+    alert(`Foto guardada en ${nombreMes}`);
+    if (vistaDiario.style.display === "block") mostrarFotos(nombreMes);
   };
   reader.readAsDataURL(file);
 }
@@ -71,40 +62,32 @@ function procesarFoto(file, nombreMes) {
 function mostrarFotos(nombreMes) {
   galeria.innerHTML = "";
   const fotos = JSON.parse(localStorage.getItem("fotos_mes_" + nombreMes) || "[]");
-  
   fotos.forEach((src, index) => {
-    const contenedor = document.createElement("div");
-    contenedor.className = "foto-contenedor";
-
     const img = document.createElement("img");
     img.src = src;
     
-    // Clic normal: Ver en pantalla completa
+    // Ver grande
     img.onclick = () => {
-        document.getElementById("fotoGrande").src = src;
-        document.getElementById("modalFoto").style.display = "flex";
+      document.getElementById("fotoGrande").src = src;
+      document.getElementById("modalFoto").style.display = "flex";
     };
 
-    // Clic mantenido: Borrar foto
+    // Borrar con pulsación larga
     let timer;
-    img.onmousedown = () => timer = setTimeout(() => confirmarBorrado(index, nombreMes), 800);
-    img.onmouseup = () => clearTimeout(timer);
-    img.ontouchstart = () => timer = setTimeout(() => confirmarBorrado(index, nombreMes), 800);
+    const iniciar = () => timer = setTimeout(() => {
+        if(confirm("¿Eliminar foto?")) {
+            fotos.splice(index, 1);
+            localStorage.setItem("fotos_mes_" + nombreMes, JSON.stringify(fotos));
+            mostrarFotos(nombreMes);
+        }
+    }, 800);
+    img.ontouchstart = iniciar;
+    img.onmousedown = iniciar;
     img.ontouchend = () => clearTimeout(timer);
+    img.onmouseup = () => clearTimeout(timer);
 
-    contenedor.appendChild(img);
-    galeria.appendChild(contenedor);
+    galeria.appendChild(img);
   });
-}
-
-// Nueva función para borrar la foto
-function confirmarBorrado(index, nombreMes) {
-  if (confirm("¿Quieres eliminar esta foto de tus recuerdos?")) {
-    let fotos = JSON.parse(localStorage.getItem("fotos_mes_" + nombreMes) || "[]");
-    fotos.splice(index, 1); // Quita la foto del array
-    localStorage.setItem("fotos_mes_" + nombreMes, JSON.stringify(fotos));
-    actualizarPantalla(); // Refresca la galería
-  }
 }
 
 function cerrarSelector() {
@@ -113,4 +96,3 @@ function cerrarSelector() {
 }
 
 renderizarMeses();
-
