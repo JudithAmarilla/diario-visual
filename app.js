@@ -48,13 +48,38 @@ function seleccionarMesManual(index) {
 
 function procesarFoto(file, nombreMes) {
   if (!file) return;
+
   const reader = new FileReader();
-  reader.onload = () => {
-    let fotos = JSON.parse(localStorage.getItem("fotos_mes_" + nombreMes) || "[]");
-    fotos.push(reader.result);
-    localStorage.setItem("fotos_mes_" + nombreMes, JSON.stringify(fotos));
-    alert(`Foto guardada en ${nombreMes}`);
-    if (vistaDiario.style.display === "block") mostrarFotos(nombreMes);
+  reader.onload = (e) => {
+    const img = new Image();
+    img.onload = () => {
+      // Configuramos el tamaño máximo (800px es ideal para móviles)
+      const canvas = document.createElement('canvas');
+      const MAX_WIDTH = 800;
+      const scaleSize = MAX_WIDTH / img.width;
+      canvas.width = MAX_WIDTH;
+      canvas.height = img.height * scaleSize;
+
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+      // Convertimos a una imagen comprimida (calidad 0.7 es perfecta)
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+
+      // GUARDAR EN LOCALSTORAGE
+      let fotos = JSON.parse(localStorage.getItem("fotos_mes_" + nombreMes) || "[]");
+      fotos.push(dataUrl);
+      localStorage.setItem("fotos_mes_" + nombreMes, JSON.stringify(fotos));
+
+      alert(`¡Foto guardada en ${nombreMes}! ✨`);
+      
+      // Limpiar los inputs para permitir subir la misma foto otra vez
+      document.getElementById("foto-camara").value = "";
+      document.getElementById("foto-archivo").value = "";
+
+      if (vistaDiario.style.display === "block") mostrarFotos(nombreMes);
+    };
+    img.src = e.target.result;
   };
   reader.readAsDataURL(file);
 }
