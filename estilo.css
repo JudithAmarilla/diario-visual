@@ -98,3 +98,41 @@ html, body {
   height: 100%;
   overflow: hidden;
 }
+/* Nuevos Estilos para Carpetas */
+.grid-meses { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; padding: 10px; }
+.carpeta { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+.icono-carpeta { 
+  width: 60px; height: 45px; background: #ffd54f; border-radius: 0 5px 5px 5px; 
+  position: relative; box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+}
+.icono-carpeta::before { 
+  content: ""; width: 25px; height: 10px; background: #ffca28; 
+  position: absolute; top: -8px; left: 0; border-radius: 5px 5px 0 0; 
+}
+.nombre-mes { margin-top: 8px; font-size: 14px; text-transform: capitalize; }
+
+.opciones-foto { display: flex; gap: 10px; }
+.btn-accion { flex: 1; text-align: center; padding: 12px; border-radius: 10px; background: #2e7d32; color: white; cursor: pointer; }
+.btn-secundario { background: #e8f5e9; color: #2e7d32; border: 1px solid #2e7d32; }
+
+.modal-foto { 
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+  background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center; z-index: 1000; 
+}
+.modal-foto img { max-width: 90%; max-height: 80%; }
+.grid-meses-mini { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
+.foto-contenedor {
+  position: relative;
+  transition: transform 0.2s;
+}
+
+.foto-contenedor:active {
+  transform: scale(0.95);
+  filter: brightness(0.8);
+}
+
+.galeria img {
+  cursor: pointer;
+  -webkit-touch-callout: none; /* Evita el menú contextual del móvil */
+  user-select: none;
+}

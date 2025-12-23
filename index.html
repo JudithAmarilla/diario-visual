@@ -3,44 +3,47 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mi Diario</title>
-
-  <link rel="manifest" href="manifest.json">
+  <title>Mi Diario Visual</title>
   <link rel="stylesheet" href="estilo.css">
 </head>
 <body>
 
-  <div class="app">
+  <div id="vista-meses" class="app">
+    <header><h1>Mis Recuerdos</h1></header>
+    <div class="grid-meses" id="grid-meses"></div>
+  </div>
 
+  <div id="vista-diario" class="app" style="display: none;">
     <header>
-      <h1>Mi Diario</h1>
-      <p id="fecha"></p>
+      <button onclick="mostrarHome()" class="btn-volver">← Volver</button>
+      <h1 id="fecha"></h1>
     </header>
 
     <div class="card">
-      <textarea id="nota" placeholder="¿Qué sentís hoy?"></textarea>
-      <button onclick="guardarNota()">Guardar nota</button>
+      <div class="opciones-foto">
+        <label class="btn-accion">📸 Cámara<input type="file" id="foto-camara" accept="image/*" capture="environment" hidden></label>
+        <label class="btn-accion btn-secundario">📁 Subir<input type="file" id="foto-archivo" accept="image/*" hidden></label>
+      </div>
     </div>
-
-    <div class="card">
-      <label class="file-label">
-        📷 Agregar foto
-        <input type="file" id="foto" accept="image/*" hidden>
-      </label>
-    </div>
-
     <div id="galeria" class="galeria"></div>
-
   </div>
 
+  <div id="modal-selector" class="modal-foto" style="display:none;">
+    <div class="card selector-contenido">
+      <h3>¿A qué mes pertenece?</h3>
+      <div class="grid-meses-mini">
+        <button onclick="seleccionarMesManual(0)">Ene</button><button onclick="seleccionarMesManual(1)">Feb</button><button onclick="seleccionarMesManual(2)">Mar</button>
+        <button onclick="seleccionarMesManual(3)">Abr</button><button onclick="seleccionarMesManual(4)">May</button><button onclick="seleccionarMesManual(5)">Jun</button>
+        <button onclick="seleccionarMesManual(6)">Jul</button><button onclick="seleccionarMesManual(7)">Ago</button><button onclick="seleccionarMesManual(8)">Sep</button>
+        <button onclick="seleccionarMesManual(9)">Oct</button><button onclick="seleccionarMesManual(10)">Nov</button><button onclick="seleccionarMesManual(11)">Dic</button>
+      </div>
+      <button onclick="cerrarSelector()">Cancelar</button>
+    </div>
+  </div>
+
+  <div id="modalFoto" class="modal-foto" onclick="this.style.display='none'"><img id="fotoGrande" src=""></div>
+
   <script src="app.js"></script>
-
-  <script>
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("service-worker.js");
-    }
-  </script>
-
 </body>
 </html>
 
